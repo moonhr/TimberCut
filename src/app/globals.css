@@ -70,3 +70,22 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* 기본 스타일 */
+body {
+  padding: 1rem;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+  }
+}
+
+/* 태블릿 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  body {
+    padding: 2rem;
+  }
+}
