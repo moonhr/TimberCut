@@ -1,13 +1,16 @@
+"use client";
 import Scene from "../three/Scene";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { Input } from "@/components/ui/input";
 
 const Home = () => {
   return (
     <div className="flex flex-col  items-center justify-center">
-      <Image src={"/LOGO.png"} alt="Logo" width={100} height={100} />
+      <div className="grid grid-cols-3 gap-2">
+        <Input />
+        <Input />
+        <Input />
+      </div>
       <div style={{ height: "100vh", width: "100vw" }}>
-        <Button>Click</Button>
         <Scene />
       </div>
     </div>
