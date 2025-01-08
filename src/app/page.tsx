@@ -1,17 +1,72 @@
 "use client";
-import Scene from "../three/Scene";
-import { Input } from "@/components/ui/input";
+
+import { SizeBox } from "@/components/SizeBox/SizeBox";
+import { UnitBox } from "@/components/UnitBox/UnitBox";
+import { ThreeDModel } from "@/components/ThreeDModel/ThreeDModel";
+import WOCard from "@/components/WoodworkingOperations/WOCard";
+
+const woodworkingOperations = [
+  {
+    name: "CNC Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Laser Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Edge Banding",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "CNC Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Laser Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Edge Banding",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "CNC Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Laser Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Edge Banding",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "CNC Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Laser Cutting",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+  {
+    name: "Edge Banding",
+    image: "https://via.placeholder.com/150?text=CNC+Cutting",
+  },
+];
 
 const Home = () => {
   return (
-    <div className="flex flex-col  items-center justify-center">
-      <div className="grid grid-cols-3 gap-2">
-        <Input />
-        <Input />
-        <Input />
-      </div>
-      <div style={{ height: "100vh", width: "100vw" }}>
-        <Scene />
+    <div className="flex flex-col items-center justify-center gap-3">
+      <UnitBox />
+      <SizeBox />
+      <ThreeDModel />
+      <span>Woodworking Operations</span>
+      <div className="flex flex-wrap gap-2 w-full items-center justify-center">
+        {woodworkingOperations.map((operation, index) => (
+          <WOCard key={index} name={operation.name} image={operation.image} />
+        ))}
       </div>
     </div>
   );
