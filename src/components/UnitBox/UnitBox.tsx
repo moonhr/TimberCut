@@ -18,6 +18,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+import { useModelingContext } from "@/context/ModelingContext";
+
 // 단위 선택 옵션
 const units = [
   { value: "cm", label: "Centimeters (cm)" },
@@ -27,8 +29,8 @@ const units = [
 ];
 
 export function UnitBox() {
+  const { unit, convertToUnit } = useModelingContext(); // Context 사용
   const [open, setOpen] = React.useState(false); // Popover 열림 상태
-  const [unit, setUnit] = React.useState("mm"); // 선택된 단위 기본값: mm
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,7 +55,11 @@ export function UnitBox() {
                   key={u.value}
                   value={u.value}
                   onSelect={(currentValue) => {
-                    setUnit(currentValue === unit ? "mm" : currentValue); // 동일 값 클릭 시 기본값으로 복귀
+                    if (currentValue !== unit) {
+                      convertToUnit(
+                        currentValue as "mm" | "inch" | "cm" | "ft"
+                      );
+                    }
                     setOpen(false); // 선택 후 Popover 닫기
                   }}
                 >

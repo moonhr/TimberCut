@@ -5,6 +5,8 @@ import { UnitBox } from "@/components/UnitBox/UnitBox";
 import { ThreeDModel } from "@/components/ThreeDModel/ThreeDModel";
 import WOCard from "@/components/WoodworkingOperations/WOCard";
 
+import { ModelingProvider } from "@/context/ModelingContext";
+
 const woodworkingOperations = [
   {
     name: "CNC Cutting",
@@ -58,17 +60,19 @@ const woodworkingOperations = [
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-3">
-      <UnitBox />
-      <SizeBox />
-      <ThreeDModel />
-      <span>Woodworking Operations</span>
-      <div className="flex flex-wrap gap-2 w-full items-center justify-center">
-        {woodworkingOperations.map((operation, index) => (
-          <WOCard key={index} name={operation.name} image={operation.image} />
-        ))}
+    <ModelingProvider>
+      <div className="flex flex-col items-center justify-center gap-3">
+        <UnitBox />
+        <SizeBox />
+        <ThreeDModel />
+        <span>Woodworking Operations</span>
+        <div className="flex flex-wrap gap-2 w-full items-center justify-center">
+          {woodworkingOperations.map((operation, index) => (
+            <WOCard key={index} name={operation.name} image={operation.image} />
+          ))}
+        </div>
       </div>
-    </div>
+    </ModelingProvider>
   );
 };
 

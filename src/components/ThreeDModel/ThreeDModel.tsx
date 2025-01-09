@@ -1,48 +1,42 @@
 import { Canvas } from "@react-three/fiber";
 import { RotationSwitch } from "./RotationSwitch";
-import { UnitSwitch } from "./UnitSwitch";
+import { OrbitControls } from "@react-three/drei";
+import { SizeSwitch } from "./UnitSwitch";
 import { MaterialSwitch } from "./MaterialSwitch";
-import { useRef, useState } from "react";
-import * as THREE from "three";
+import { useState } from "react";
+import { useModelingContext } from "@/context/ModelingContext";
+import { LightSetup } from "./LightSetup";
+import { CameraSetup } from "./CameraSetup";
+import { Box } from "./Box";
 
 export const ThreeDModel = () => {
-  const [dimensions, setDimensions] = useState({
-    length: 1,
-    width: 1,
-    thickness: 1,
-  });
+  const { pxDimensions } = useModelingContext();
+  const [enableRotation, setEnableRotation] = useState(true);
+  const [showUnits, setShowUnits] = useState(true);
+  const [material, setMaterial] = useState(true); // 텍스처 활성화 상태
+
   return (
     <div className="flex flex-col items-center justify-center bg-slate-400 w-full">
       {/* Three.js Viewer */}
-      <Canvas className="w-full" camera={{ position: [5, 5, 5], fov: 50 }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 10]} intensity={1} />
-        <Box dimensions={dimensions} />
+      <Canvas
+        className="w-full"
+        camera={{ fov: 50, near: 0.1, far: 50000 }}
+        shadows={true}
+      >
+        <LightSetup />
+        <CameraSetup boxDimensions={pxDimensions} />
+        <Box
+          enableRotation={enableRotation}
+          showUnits={showUnits}
+          material={material}
+        />
+        <OrbitControls />
       </Canvas>
       <div className="flex flex-row gap-2 p-2">
-        <RotationSwitch />
-        <UnitSwitch />
-        <MaterialSwitch />
+        <RotationSwitch onToggle={setEnableRotation} />
+        <SizeSwitch onToggle={setShowUnits} />
+        <MaterialSwitch onToggle={setMaterial} />
       </div>
     </div>
-  );
-};
-
-// Box 컴포넌트
-const Box = ({
-  dimensions,
-}: {
-  dimensions: { length: number; width: number; thickness: number };
-}) => {
-  const boxRef = useRef<THREE.Mesh>(null);
-
-  return (
-    <mesh ref={boxRef}>
-      {/* 박스의 크기 조정 */}
-      <boxGeometry
-        args={[dimensions.length, dimensions.thickness, dimensions.width]}
-      />
-      <meshStandardMaterial color="orange" />
-    </mesh>
   );
 };

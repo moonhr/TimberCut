@@ -29,14 +29,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col  items-center justify-center`}
       >
-        <Image
-          src={"/LOGO.png"}
-          alt="Logo"
-          width={100}
-          height={100}
-          className="hover:opacity-40"
-        />
-        {children}
+          <Image
+            src={"/LOGO.png"}
+            alt="Logo"
+            width={100}
+            height={100}
+            className="hover:opacity-40"
+          />
+          {children}
       </body>
     </html>
   );
