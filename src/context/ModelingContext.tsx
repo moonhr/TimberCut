@@ -71,21 +71,29 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [length, width, thickness, unit]);
 
   const convertToUnit = (targetUnit: "mm" | "inch" | "cm" | "ft") => {
-    const toMm = UnitConverter.convertToMm;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const fromMm = (value: number, unit: "mm" | "inch" | "cm" | "ft") =>
-      UnitConverter.convertToMm(value, targetUnit);
+    const mmLength = UnitConverter.convertToMm(length, unit);
+    const mmWidth = UnitConverter.convertToMm(width, unit);
+    const mmThickness = UnitConverter.convertToMm(thickness, unit);
 
-    setLength(
-      NumberRounder.roundToThreeDecimalPlaces(fromMm(toMm(length, unit), unit))
-    );
-    setWidth(
-      NumberRounder.roundToThreeDecimalPlaces(fromMm(toMm(width, unit), unit))
-    );
+    const convertFromMm = (mmValue: number) => {
+      switch (targetUnit) {
+        case "mm":
+          return mmValue;
+        case "cm":
+          return UnitConverter.convertMmToCm(mmValue);
+        case "inch":
+          return UnitConverter.convertMmToInch(mmValue);
+        case "ft":
+          return UnitConverter.convertMmToFt(mmValue);
+        default:
+          throw new Error("Unsupported target unit");
+      }
+    };
+
+    setLength(NumberRounder.roundToThreeDecimalPlaces(convertFromMm(mmLength)));
+    setWidth(NumberRounder.roundToThreeDecimalPlaces(convertFromMm(mmWidth)));
     setThickness(
-      NumberRounder.roundToThreeDecimalPlaces(
-        fromMm(toMm(thickness, unit), unit)
-      )
+      NumberRounder.roundToThreeDecimalPlaces(convertFromMm(mmThickness))
     );
     setUnit(targetUnit);
   };

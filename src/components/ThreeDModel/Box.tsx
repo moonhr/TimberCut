@@ -56,8 +56,10 @@ export const Box = ({ enableRotation, showUnits, material }: BoxProps) => {
           ]}
         />
         <meshStandardMaterial
-          color={material ? undefined : "white"} // 기본 흰색
-          map={material ? woodTexture : null} // 나무 텍스처 적용
+          key={material ? "wood" : "white"} // 상태에 따라 키 변경
+          attach="material"
+          color={material ? undefined : "white"}
+          map={material ? woodTexture : null}
           metalness={0.5}
           roughness={0.5}
         />

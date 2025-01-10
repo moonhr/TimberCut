@@ -2,7 +2,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
 interface MaterialSwitchProps {
-  onToggle: (value: boolean) => void; // 텍스처 활성화 여부를 부모로 전달
+  onToggle: (value: boolean) => void;
 }
 
 export function MaterialSwitch({ onToggle }: MaterialSwitchProps) {

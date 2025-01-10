@@ -13,7 +13,7 @@ export const ThreeDModel = () => {
   const { pxDimensions } = useModelingContext();
   const [enableRotation, setEnableRotation] = useState(true);
   const [showUnits, setShowUnits] = useState(true);
-  const [material, setMaterial] = useState(true); // 텍스처 활성화 상태
+  const [material, setMaterial] = useState(true);
 
   return (
     <div className="flex flex-col items-center justify-center bg-slate-400 w-full">
