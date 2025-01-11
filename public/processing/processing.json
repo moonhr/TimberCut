@@ -1,0 +1,32 @@
+{
+  "processingOperations": [
+    {
+      "id": "operation1",
+      "name": "Round Edge",
+      "parameters": {
+        "topRightRadius": 20,
+        "topLeftRadius": 20,
+        "bottomRightRadius": 20,
+        "bottomLeftRadius": 20
+      }
+    },
+    {
+      "id": "operation2",
+      "name": "Circular Hole",
+      "parameters": {
+        "radius": 30,
+        "x": 100,
+        "y": 50
+      }
+    },
+    {
+      "id": "operation3",
+      "name": "Groove",
+      "parameters": {
+        "depth": 5,
+        "width": 10,
+        "position": 50
+      }
+    }
+  ]
+}
