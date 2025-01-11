@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useModelingContext } from "@/context/ModelingContext";
 import { LightSetup } from "./LightSetup";
 import { CameraSetup } from "./CameraSetup";
-import { Box } from "./Box";
+import { Box } from "./Box/Box";
 
 export const ThreeDModel = () => {
   const { pxDimensions } = useModelingContext();
