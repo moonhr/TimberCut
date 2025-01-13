@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ModelingProvider } from "@/context/ModelingContext";
@@ -8,7 +9,6 @@ interface ProvidersProps {
 }
 
 const Providers: React.FC<ProvidersProps> = ({ children }) => {
-  console.log("Providers initialized with children:", children);
 
   return (
     <ModelingProvider>

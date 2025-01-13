@@ -16,7 +16,7 @@ export const Box: React.FC<BoxProps> = ({
   showUnits,
   material,
 }) => {
-  const { length, width, thickness, pxDimensions } = useModelingContext();
+  const { length, width, thickness, pxDimensions, unit } = useModelingContext();
   const groupRef = useRef<THREE.Group>(null);
 
   const textScale = useMemo(() => {
@@ -39,13 +39,17 @@ export const Box: React.FC<BoxProps> = ({
 
   useFrame(() => {
     if (enableRotation && groupRef.current) {
-      groupRef.current.rotation.y += 0.01;
+      groupRef.current.rotation.y += 0.005;
     }
   });
 
   return (
     <group ref={groupRef}>
-      <BoxModeling material={material} pxDimensions={pxDimensions} />
+      <BoxModeling
+        material={material}
+        pxDimensions={pxDimensions}
+        unit={unit}
+      />
       <BoxText
         pxDimensions={pxDimensions}
         lineOffset={lineOffset}

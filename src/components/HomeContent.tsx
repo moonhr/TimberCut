@@ -13,7 +13,7 @@ const HomeContent = () => {
   }, []);
 
   if (!initialized) {
-    return null; // 초기화 전에는 아무것도 렌더링하지 않음
+    return null;
   }
 
   return (

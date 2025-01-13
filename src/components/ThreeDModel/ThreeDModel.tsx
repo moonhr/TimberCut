@@ -16,7 +16,7 @@ export const ThreeDModel = () => {
   const [material, setMaterial] = useState(true);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-slate-400 w-full">
+    <div className="flex flex-col items-center justify-center bg-gray-300 w-full">
       {/* Three.js Viewer */}
       <Canvas
         className="w-full"

@@ -13,7 +13,7 @@ export function MaterialSwitch({ onToggle }: MaterialSwitchProps) {
         defaultChecked={true}
         onCheckedChange={onToggle}
       />
-      <Label htmlFor="material-switch">Material</Label>
+      <Label htmlFor="material-switch">Wireframe</Label>
     </div>
   );
 }
