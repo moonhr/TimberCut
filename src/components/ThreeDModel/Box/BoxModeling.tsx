@@ -1,38 +1,87 @@
-import React, { useMemo } from "react";
-import { useLoader } from "@react-three/fiber";
+import React, { useEffect, useState } from "react";
 import * as THREE from "three";
+import { CircularHoleProcessing } from "@/core/Processing/CircularHoleProcessing";
+import { useProcessingContext } from "@/context/ProcessingContext";
+import { UnitConverter } from "@/core/UnitConverter";
 
 interface BoxModelingProps {
   material: boolean;
   pxDimensions: { length: number; width: number; thickness: number };
+  unit: "mm" | "cm" | "inch" | "ft";
 }
 
 const BoxModeling: React.FC<BoxModelingProps> = ({
   material,
   pxDimensions,
+  unit,
 }) => {
-  const woodTexture = useLoader(THREE.TextureLoader, "/textures/wood.jpg");
+  const { operations } = useProcessingContext();
+  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
 
-  // 기본 BoxGeometry 생성
-  const geometry = useMemo(() => {
-    return new THREE.BoxGeometry(
+  useEffect(() => {
+    let baseGeometry = new THREE.BoxGeometry(
       pxDimensions.width,
       pxDimensions.thickness,
       pxDimensions.length
     );
-  }, [pxDimensions]);
+
+    const convertedOperations = operations.map((operation) => ({
+      ...operation,
+      parameters: Object.entries(operation.parameters).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: UnitConverter.convertToMm(value as number, unit),
+        }),
+        {}
+      ),
+    }));
+
+    convertedOperations.forEach((operation) => {
+      if (operation.name === "Circular Hole") {
+        const circularHoleProcessor = new CircularHoleProcessing(
+          baseGeometry as THREE.BoxGeometry
+        );
+        baseGeometry = circularHoleProcessor.apply(
+          operation.parameters as { x: number; y: number; radius: number }
+        ) as THREE.BoxGeometry;
+      }
+    });
+
+    setGeometry(baseGeometry);
+  }, [operations, pxDimensions, unit]);
+
+  if (!geometry) {
+    return null;
+  }
 
   return (
-    <mesh castShadow={true} geometry={geometry}>
-      <meshStandardMaterial
-        key={material ? "wood" : "white"}
-        attach="material"
-        color={material ? undefined : "white"}
-        map={material ? woodTexture : null}
-        metalness={0.5}
-        roughness={0.5}
-      />
-    </mesh>
+    <>
+      {material ? (
+        <>
+          <mesh castShadow={true} geometry={geometry}>
+            <meshStandardMaterial
+              color="white"
+              metalness={0.1}
+              roughness={0.9}
+              transparent={true}
+              opacity={0.3}
+            />
+          </mesh>
+          <lineSegments geometry={new THREE.EdgesGeometry(geometry)}>
+            <lineBasicMaterial color="black" />
+          </lineSegments>
+        </>
+      ) : (
+        <mesh castShadow={true} geometry={geometry}>
+          <meshStandardMaterial
+            color="white"
+            metalness={0.1}
+            roughness={0.9}
+            transparent={false}
+          />
+        </mesh>
+      )}
+    </>
   );
 };
 
