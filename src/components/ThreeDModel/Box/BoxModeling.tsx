@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { CircularHoleProcessing } from "@/core/Processing/CircularHoleProcessing";
 import { useProcessingContext } from "@/context/ProcessingContext";
 import { UnitConverter } from "@/core/UnitConverter";
+import { RoundEdgeProcessing } from "@/core/Processing/RoundEdgeProcessing";
 
 interface BoxModelingProps {
   material: boolean;
@@ -43,6 +44,17 @@ const BoxModeling: React.FC<BoxModelingProps> = ({
         );
         baseGeometry = circularHoleProcessor.apply(
           operation.parameters as { x: number; y: number; radius: number }
+        ) as THREE.BoxGeometry;
+      }
+      if (operation.name === "Round Edge") {
+        const roundEdgeProcessor = new RoundEdgeProcessing(baseGeometry);
+        baseGeometry = roundEdgeProcessor.apply(
+          operation.parameters as {
+            topLeftRadius: number;
+            topRightRadius: number;
+            bottomLeftRadius: number;
+            bottomRightRadius: number;
+          }
         ) as THREE.BoxGeometry;
       }
     });
