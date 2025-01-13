@@ -22,7 +22,6 @@ const BoxText: React.FC<BoxTextProps> = ({
 }) => {
   return (
     <>
-      {/* 길이 치수선과 텍스트 */}
       {showUnits && (
         <group position={[-pxDimensions.width / 2 - lineOffset, 0, 0]}>
           <line>
@@ -58,7 +57,6 @@ const BoxText: React.FC<BoxTextProps> = ({
         </group>
       )}
 
-      {/* 너비 치수선과 텍스트 */}
       {showUnits && (
         <group position={[0, 0, -pxDimensions.length / 2 - lineOffset]}>
           <line>
@@ -94,10 +92,9 @@ const BoxText: React.FC<BoxTextProps> = ({
         </group>
       )}
 
-      {/* 두께 텍스트 (박스 위에 표시) */}
       {showUnits && (
         <Text
-          position={[0, pxDimensions.thickness + 0.1 / 2, 0]}
+          position={[0, pxDimensions.thickness + 1 / 2, 0]}
           fontSize={textScale}
           color="black"
           anchorX="center"
