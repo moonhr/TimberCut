@@ -46,9 +46,8 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
     thickness: number;
   }>({ length: 1200, width: 600, thickness: 20 });
 
-  // px 변환 (항상 mm 기준으로 변환)
   const convertToPxFromMm = (mmValue: number): number => {
-    return mmValue * 3.7795;
+    return mmValue;
   };
 
   // pxDimensions 업데이트
