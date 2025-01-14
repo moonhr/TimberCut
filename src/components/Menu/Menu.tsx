@@ -1,33 +1,39 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+"use client";
 
-import { CiCirclePlus } from "react-icons/ci";
+import React from "react";
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import { IoSave } from "react-icons/io5"; 
+import { MdOutlineFileDownload } from "react-icons/md"; 
+import { MdOutlineFileUpload } from "react-icons/md"; 
 
-export const Menu = () => {
+const actions = [
+  { icon: <IoSave />, name: "Save" },
+  { icon: <MdOutlineFileDownload />, name: "Export" },
+  { icon: <MdOutlineFileUpload />, name: "Import" },
+];
+
+const FloatingMenu = () => {
   return (
-    <div className="z-30 fixed bottom-4 right-4 block overflow-visible">
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <div className="inline-flex justify-center items-center touch-auto">
-            <CiCirclePlus className="w-10 h-10" />
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="flex flex-col gap-2 p-4">
-          <DropdownMenuItem className="flex justify-center items-center rounded-full bg-gray-200 hover:bg-gray-300">
-            SAVE
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex justify-center items-center rounded-full bg-gray-200 hover:bg-gray-300">
-            EXPORT
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex justify-center items-center rounded-full bg-gray-200 hover:bg-gray-300">
-            IMPORT
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <SpeedDial
+      ariaLabel="SpeedDial basic example"
+      sx={{
+        position: "fixed",
+        bottom: 16,
+        right: 16,
+      }}
+      icon={<SpeedDialIcon />}
+    >
+      {actions.map((action) => (
+        <SpeedDialAction
+          key={action.name}
+          icon={action.icon}
+          tooltipTitle={action.name}
+        />
+      ))}
+    </SpeedDial>
   );
 };
+
+export default FloatingMenu;

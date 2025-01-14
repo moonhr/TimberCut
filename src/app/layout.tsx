@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Image from "next/image";
-import { Menu } from "@/components/Menu/Menu";
+import FloatingMenu from "@/components/Menu/Menu";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,7 +38,7 @@ export default function RootLayout({
           className="hover:opacity-40"
         />
         {children}
-        <Menu />
+        <FloatingMenu />
       </body>
     </html>
   );
