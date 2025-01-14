@@ -23,9 +23,9 @@
       "id": "operation3",
       "name": "Groove",
       "parameters": {
-        "depth": 5,
-        "width": 10,
-        "position": 50
+        "baseHeight": 5,
+        "grooveDepth": 10,
+        "grooveLength": 10
       }
     }
   ]
