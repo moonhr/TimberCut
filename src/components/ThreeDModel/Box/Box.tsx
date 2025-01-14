@@ -4,7 +4,6 @@ import * as THREE from "three";
 import { useModelingContext } from "@/context/ModelingContext";
 import BoxModeling from "./BoxModeling";
 import BoxText from "./BoxText";
-import PreviewModeling from "./PreviewModeling";
 
 interface BoxProps {
   enableRotation: boolean;
@@ -51,7 +50,7 @@ export const Box: React.FC<BoxProps> = ({
         pxDimensions={pxDimensions}
         unit={unit}
       />
-      <PreviewModeling pxDimensions={pxDimensions} unit={unit} />
+
       <BoxText
         pxDimensions={pxDimensions}
         lineOffset={lineOffset}

@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from "react";
 import * as THREE from "three";
+
 import { UnitConverter } from "@/core/UnitConverter";
-import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { CSG } from "three-csg-ts";
+
+import { RoundEdgeProcessing } from "@/core/Processing/RoundEdgeProcessing";
+import { CircularHoleProcessing } from "@/core/Processing/CircularHoleProcessing";
+import { GrooveProcessing } from "@/core/Processing/GrooveProcessing";
+
+import {
+  GrooveParameters,
+  RoundEdgeParameters,
+  CircularHoleParameters,
+} from "@/core/types/ProcessingTypes";
 
 interface PreviewModelingProps {
   selectedOperation: string | null;
@@ -35,111 +46,41 @@ const PreviewModeling: React.FC<PreviewModelingProps> = ({
       {}
     );
 
+    const createPreviewGeometry = (processedGeometry: THREE.BufferGeometry) => {
+      const originalMesh = new THREE.Mesh(baseGeometry);
+      const processedMesh = new THREE.Mesh(processedGeometry);
+
+      const originalCSG = CSG.fromMesh(originalMesh);
+      const processedCSG = CSG.fromMesh(processedMesh);
+
+      const differenceCSG = originalCSG.subtract(processedCSG);
+      return CSG.toMesh(differenceCSG, new THREE.Matrix4()).geometry;
+    };
+
+    let processedGeometry: THREE.BufferGeometry;
+
     if (selectedOperation === "Circular Hole") {
-      const { x, y, radius } = convertedParams as {
-        x: number;
-        y: number;
-        radius: number;
-      };
-
-      const previewGeom = new THREE.CylinderGeometry(
-        radius,
-        radius,
-        pxDimensions.thickness,
-        32
+      const holeProcessor = new CircularHoleProcessing(baseGeometry);
+      processedGeometry = holeProcessor.apply(
+        convertedParams as CircularHoleParameters
       );
-      previewGeom.translate(0, -pxDimensions.thickness / 2, 0);
-
-      if (!baseGeometry.boundingBox) {
-        baseGeometry.computeBoundingBox();
-      }
-      const box = baseGeometry.boundingBox!;
-
-      const holeX = box.min.x + y;
-      const holeZ = box.min.z + x;
-
-      const height = box.max.y * 2;
-      previewGeom.translate(holeX, height / 2, holeZ);
-      setPreviewGeometry(previewGeom);
     } else if (selectedOperation === "Round Edge") {
-      const params = convertedParams as {
-        topLeftRadius: number;
-        topRightRadius: number;
-        bottomLeftRadius: number;
-        bottomRightRadius: number;
-      };
-
-      if (!baseGeometry.boundingBox) {
-        baseGeometry.computeBoundingBox();
-      }
-      const box = baseGeometry.boundingBox!;
-
-      const corners = [
-        {
-          position: new THREE.Vector3(box.min.x, box.max.y, box.max.z),
-          radius: params.bottomRightRadius,
-        },
-        {
-          position: new THREE.Vector3(box.max.x, box.max.y, box.max.z),
-          radius: params.topRightRadius,
-        },
-        {
-          position: new THREE.Vector3(box.min.x, box.max.y, box.min.z),
-          radius: params.bottomLeftRadius,
-        },
-        {
-          position: new THREE.Vector3(box.max.x, box.max.y, box.min.z),
-          radius: params.topLeftRadius,
-        },
-      ];
-
-      const previewGeometries: THREE.BufferGeometry[] = [];
-
-      corners.forEach((corner, index) => {
-        if (corner.radius > 0) {
-          const cornerBox = new THREE.BoxGeometry(
-            corner.radius,
-            corner.radius,
-            corner.radius
-          );
-
-          if (index === 0) {
-            cornerBox.translate(
-              corner.position.x + corner.radius / 2,
-              corner.position.y - corner.radius / 2,
-              corner.position.z - corner.radius / 2
-            );
-          } else if (index === 1) {
-            cornerBox.translate(
-              corner.position.x - corner.radius / 2,
-              corner.position.y - corner.radius / 2,
-              corner.position.z - corner.radius / 2
-            );
-          } else if (index === 2) {
-            cornerBox.translate(
-              corner.position.x + corner.radius / 2,
-              corner.position.y - corner.radius / 2,
-              corner.position.z + corner.radius / 2
-            );
-          } else {
-            cornerBox.translate(
-              corner.position.x - corner.radius / 2,
-              corner.position.y - corner.radius / 2,
-              corner.position.z + corner.radius / 2
-            );
-          }
-
-          previewGeometries.push(cornerBox);
-        }
-      });
-
-      if (previewGeometries.length > 0) {
-        const mergedGeometry = mergeGeometries(previewGeometries, false);
-        setPreviewGeometry(mergedGeometry);
-      } else {
-        setPreviewGeometry(null);
-      }
+      const roundEdgeProcessor = new RoundEdgeProcessing(baseGeometry);
+      processedGeometry = roundEdgeProcessor.apply(
+        convertedParams as RoundEdgeParameters
+      );
+    } else if (selectedOperation === "Groove") {
+      const grooveProcessor = new GrooveProcessing(baseGeometry);
+      processedGeometry = grooveProcessor.apply(
+        convertedParams as GrooveParameters
+      );
+    } else {
+      setPreviewGeometry(null);
+      return;
     }
+
+    const previewGeometry = createPreviewGeometry(processedGeometry);
+    setPreviewGeometry(previewGeometry);
   }, [
     selectedOperation,
     processingParameters,

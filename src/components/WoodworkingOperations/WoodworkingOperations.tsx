@@ -3,27 +3,34 @@ import { ProcessingOperation } from "@/ts/interface/ProcessingOperation";
 import ProcessingDetails from "@/components/WoodworkingOperations/ProcessingDetails";
 import WOCard from "@/components/WoodworkingOperations/WOCard";
 import ProcessingList from "@/components/WoodworkingOperations/ProcessingList";
+import { useProcessingContext } from "@/context/ProcessingContext";
 
 const WoodworkingOperations = () => {
-  const [operations, setOperations] = useState<ProcessingOperation[]>([]);
+  const [availableOperations, setAvailableOperations] = useState<
+    ProcessingOperation[]
+  >([]);
   const [selectedOperation, setSelectedOperation] =
     useState<ProcessingOperation | null>(null);
+  const { setSelectedOperation: setContextSelectedOperation } =
+    useProcessingContext();
 
   useEffect(() => {
     const fetchOperations = async () => {
       const response = await fetch("/processing/processing.json");
       const data = await response.json();
-      setOperations(data.processingOperations);
+      setAvailableOperations(data.processingOperations);
     };
     fetchOperations();
   }, []);
 
   const handleCardClick = (operation: ProcessingOperation) => {
-    setSelectedOperation(operation); 
+    setSelectedOperation(operation);
+    setContextSelectedOperation(operation.name);
   };
 
   const handleClearSelection = () => {
-    setSelectedOperation(null); // 선택 해제
+    setSelectedOperation(null);
+    setContextSelectedOperation(null);
   };
 
   return (
@@ -38,12 +45,12 @@ const WoodworkingOperations = () => {
       <ProcessingList />
 
       <div className="flex flex-wrap gap-2 w-full items-center justify-center">
-        {operations.map((operation, index) => (
+        {availableOperations.map((operation, index) => (
           <WOCard
             key={index}
             name={operation.name}
             image={`https://via.placeholder.com/150?text=${operation.name}`}
-            onClick={() => handleCardClick(operation)} // 클릭 핸들러 추가
+            onClick={() => handleCardClick(operation)}
           />
         ))}
       </div>

@@ -15,21 +15,25 @@ const ProcessingDetails: React.FC<ProcessingDetailsProps> = ({
   onClearSelection,
 }) => {
   const { unit } = useModelingContext();
-  const { addOperation } = useProcessingContext();
+  const { addOperation, setProcessingParameters, updatePreview } =
+    useProcessingContext();
+
   const [parameters, setParameters] = useState<{ [key: string]: number }>(
     selectedOperation?.parameters || {}
   );
 
   useEffect(() => {
     if (selectedOperation?.parameters) {
-      setParameters(
-        Object.fromEntries(
-          Object.entries(selectedOperation.parameters).map(([key, value]) => [
-            key,
-            value ?? 0,
-          ])
-        )
+      const initialParams = Object.fromEntries(
+        Object.entries(selectedOperation.parameters).map(([key, value]) => [
+          key,
+          value ?? 0,
+        ])
       );
+      setParameters(initialParams);
+      // 초기 파라미터로 미리보기 업데이트
+      setProcessingParameters(initialParams);
+      updatePreview(selectedOperation.name, initialParams);
     }
   }, [selectedOperation]);
 
@@ -42,7 +46,11 @@ const ProcessingDetails: React.FC<ProcessingDetailsProps> = ({
   }
 
   const handleParameterChange = (key: string, value: number) => {
-    setParameters((prev) => ({ ...prev, [key]: value }));
+    const newParameters = { ...parameters, [key]: value };
+    setParameters(newParameters);
+    // 파라미터 변경 시마다 context 업데이트
+    setProcessingParameters(newParameters);
+    updatePreview(selectedOperation.name, newParameters);
   };
 
   const handleSave = () => {
@@ -51,7 +59,6 @@ const ProcessingDetails: React.FC<ProcessingDetailsProps> = ({
       return;
     }
 
-    // selectedOperation의 parameters를 사용자 입력값으로 업데이트
     const updatedOperation = {
       ...selectedOperation,
       parameters: { ...parameters },
