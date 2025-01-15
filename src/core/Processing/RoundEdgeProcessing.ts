@@ -86,7 +86,7 @@ export class RoundEdgeProcessing extends BaseProcessing {
           corner.radius,
           corner.radius,
           height,
-          16
+          32
         );
 
         if (index === 0) {

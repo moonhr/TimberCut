@@ -11,6 +11,7 @@ import {
   GrooveParameters,
   RoundEdgeParameters,
 } from "@/core/types/ProcessingTypes";
+import { useModelingContext } from "@/context/ModelingContext";
 
 interface BoxModelingProps {
   material: boolean;
@@ -25,6 +26,7 @@ const BoxModeling: React.FC<BoxModelingProps> = ({
 }) => {
   const { operations, selectedOperation, processingParameters } =
     useProcessingContext();
+  const { setCurrentGeometry } = useModelingContext();
   const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
 
   const baseGeometry = useMemo(() => {
@@ -35,9 +37,8 @@ const BoxModeling: React.FC<BoxModelingProps> = ({
     );
   }, [pxDimensions]);
 
-  // 실제 가공 적용
   useEffect(() => {
-    let currentGeometry = baseGeometry.clone() as THREE.BoxGeometry;
+    let processedGeometry = baseGeometry.clone() as THREE.BufferGeometry;
 
     const convertedOperations = operations.map((operation) => ({
       ...operation,
@@ -50,35 +51,35 @@ const BoxModeling: React.FC<BoxModelingProps> = ({
       ),
     }));
 
-    convertedOperations.forEach((operation) => {
-      if (operation.name === "Circular Hole") {
-        const circularHoleProcessor = new CircularHoleProcessing(
-          currentGeometry as THREE.BoxGeometry
-        );
-        currentGeometry = circularHoleProcessor.apply(
-          operation.parameters as CircularHoleParameters
-        ) as THREE.BoxGeometry;
-      }
-      if (operation.name === "Round Edge") {
-        const roundEdgeProcessor = new RoundEdgeProcessing(
-          currentGeometry as THREE.BoxGeometry
-        );
-        currentGeometry = roundEdgeProcessor.apply(
-          operation.parameters as RoundEdgeParameters
-        ) as THREE.BoxGeometry;
-      }
-      if (operation.name === "Groove") {
-        const grooveProcessor = new GrooveProcessing(
-          currentGeometry as THREE.BoxGeometry
-        );
-        currentGeometry = grooveProcessor.apply(
-          operation.parameters as GrooveParameters
-        ) as THREE.BoxGeometry;
-      }
-    });
+    processedGeometry = convertedOperations.reduce(
+      (prevGeometry, operation) => {
+        let processor;
 
-    setGeometry(currentGeometry);
-  }, [operations, baseGeometry, unit]);
+        switch (operation.name) {
+          case "Circular Hole":
+            processor = new CircularHoleProcessing(prevGeometry);
+            return processor.apply(
+              operation.parameters as CircularHoleParameters
+            );
+
+          case "Round Edge":
+            processor = new RoundEdgeProcessing(prevGeometry);
+            return processor.apply(operation.parameters as RoundEdgeParameters);
+
+          case "Groove":
+            processor = new GrooveProcessing(prevGeometry);
+            return processor.apply(operation.parameters as GrooveParameters);
+
+          default:
+            return prevGeometry;
+        }
+      },
+      processedGeometry
+    );
+
+    setGeometry(processedGeometry);
+    setCurrentGeometry(processedGeometry);
+  }, [operations, baseGeometry, unit, setCurrentGeometry]);
 
   if (!geometry) return null;
 
