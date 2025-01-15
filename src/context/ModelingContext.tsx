@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { UnitConverter } from "@/core/UnitConverter";
 import { NumberRounder } from "@/utils/NumberRounder";
+import * as THREE from "three";
 
 // Context에서 관리할 데이터의 타입
 interface ModelingContextData {
@@ -14,6 +15,8 @@ interface ModelingContextData {
   setThickness: (value: number) => void;
   setUnit: (unit: "mm" | "inch" | "cm" | "ft") => void;
   convertToUnit: (targetUnit: "mm" | "inch" | "cm" | "ft") => void;
+  currentGeometry: THREE.BufferGeometry | null;
+  setCurrentGeometry: (geometry: THREE.BufferGeometry | null) => void;
 }
 
 // Context 초기값
@@ -28,6 +31,8 @@ const initialContextData: ModelingContextData = {
   setThickness: () => {},
   setUnit: () => {},
   convertToUnit: () => {},
+  currentGeometry: null,
+  setCurrentGeometry: () => {},
 };
 
 const ModelingContext = createContext<ModelingContextData>(initialContextData);
@@ -45,6 +50,8 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
     width: number;
     thickness: number;
   }>({ length: 1200, width: 600, thickness: 20 });
+  const [currentGeometry, setCurrentGeometry] =
+    useState<THREE.BufferGeometry | null>(null);
 
   const convertToPxFromMm = (mmValue: number): number => {
     return mmValue;
@@ -110,6 +117,8 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
         setThickness,
         setUnit,
         convertToUnit,
+        currentGeometry,
+        setCurrentGeometry,
       }}
     >
       {children}

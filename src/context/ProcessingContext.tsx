@@ -15,6 +15,7 @@ interface ProcessingContextData {
   setProcessingParameters: (parameters: Record<string, number> | null) => void;
   updatePreview: (name: string, parameters: Record<string, number>) => void;
   clearPreview: () => void;
+  setOperations: (operations: ProcessingOperation[]) => void;
 }
 
 const ProcessingContext = createContext<ProcessingContextData | null>(null);
@@ -74,6 +75,7 @@ export const ProcessingProvider: React.FC<{ children: React.ReactNode }> = ({
         setProcessingParameters,
         updatePreview,
         clearPreview,
+        setOperations,
       }}
     >
       {children}
