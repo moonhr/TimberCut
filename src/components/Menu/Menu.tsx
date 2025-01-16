@@ -24,7 +24,6 @@ import { SaveModal } from "@/components/Menu/SaveModal/SaveModal";
 import { ImportModal } from "@/components/Menu/ImportModal/ImportModal";
 import { ModelDataType } from "@/core/types/ModelDataType";
 
-
 const FloatingMenu = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -185,6 +184,7 @@ const FloatingMenu = () => {
         onClose={() => setIsImportModalOpen(false)}
         onImport={handleImport}
         savedModels={savedModels}
+        setSavedModels={setSavedModels}
       />
     </>
   );

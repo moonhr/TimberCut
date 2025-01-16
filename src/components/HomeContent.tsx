@@ -4,7 +4,7 @@ import { SizeBox } from "@/components/SizeBox/SizeBox";
 import { UnitBox } from "@/components/UnitBox/UnitBox";
 import { ThreeDModel } from "@/components/ThreeDModel/ThreeDModel";
 import WoodworkingOperations from "./WoodworkingOperations/WoodworkingOperations";
-
+import Footer from "@/components/Footer/Footer";
 const HomeContent = () => {
   const [initialized, setInitialized] = useState(false);
 
@@ -22,8 +22,8 @@ const HomeContent = () => {
       <SizeBox />
       <ThreeDModel />
       <span>Woodworking Operations</span>
-
       <WoodworkingOperations />
+      <Footer />
     </div>
   );
 };
