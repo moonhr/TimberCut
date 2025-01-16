@@ -2,9 +2,10 @@ import * as THREE from "three";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 import { STLExporter } from "three/addons/exporters/STLExporter.js";
 import { OBJExporter } from "three/addons/exporters/OBJExporter.js";
+import { FormatType } from "@/core/types/FormatType";
 
 interface ExportOptions {
-  format: "glb" | "gltf" | "stl" | "obj" | "nc" | "gcode";
+  format: FormatType;
   fileName?: string;
   geometry: THREE.BufferGeometry;
 }
@@ -59,7 +60,6 @@ export const exportModel = ({
   }
 };
 
-// 파일 다운로드 헬퍼 함수
 const downloadFile = (
   data: string | ArrayBuffer,
   fileName: string,
@@ -74,8 +74,38 @@ const downloadFile = (
   URL.revokeObjectURL(url);
 };
 
-// G-code 생성 함수 (구현 필요)
 const generateGCode = (geometry: THREE.BufferGeometry): string => {
-  // G-code 생성 로직
-  return "";
+  let gcode = "G21 ; Set units to millimeters\n";
+  gcode += "G90 ; Absolute positioning\n";
+  gcode += "G0 Z5.0 ; Raise to safe height\n";
+
+  geometry.computeBoundingBox();
+  const boundingBox = geometry.boundingBox;
+  const size = new THREE.Vector3();
+  boundingBox?.getSize(size);
+
+  gcode += `; Bounding box size: ${size.x} x ${size.y} x ${size.z}\n`;
+
+  const vertices = geometry.attributes.position.array;
+  const feedRate = 1500; // mm/min
+  const cutDepth = -1.0; // mm
+
+  for (let i = 0; i < vertices.length; i += 3) {
+    const x = vertices[i];
+    const y = vertices[i + 1];
+    const z = vertices[i + 2] + cutDepth; // Adjust for cutting depth
+
+    if (i === 0) {
+      gcode += `G0 X${x.toFixed(2)} Y${y.toFixed(2)} ; Rapid move to start\n`;
+      gcode += `G1 Z${z.toFixed(2)} F${feedRate} ; Start cutting\n`;
+    } else {
+      gcode += `G1 X${x.toFixed(2)} Y${y.toFixed(2)} Z${z.toFixed(
+        2
+      )} F${feedRate}\n`;
+    }
+  }
+
+  gcode += "G0 Z5.0 ; Raise to safe height\n";
+  gcode += "M30 ; End of program\n";
+  return gcode;
 };

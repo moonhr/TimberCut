@@ -12,11 +12,11 @@ import {
   InputLabel,
   Box,
 } from "@mui/material";
-
+import { FormatType } from "@/core/types/FormatType";
 interface ExportModalProps {
   open: boolean;
   onClose: () => void;
-  onExport: (format: string, fileName: string) => void;
+  onExport: (format: FormatType, fileName: string) => void;
 }
 
 const fileFormats = [
@@ -37,7 +37,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
   const [fileName, setFileName] = useState("model");
 
   const handleExport = () => {
-    onExport(selectedFormat, fileName);
+    onExport(selectedFormat as FormatType, fileName);
     onClose();
   };
 

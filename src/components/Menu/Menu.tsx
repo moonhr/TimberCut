@@ -23,6 +23,7 @@ import { ExportModal } from "@/components/Menu/ExportModal/ExportModal";
 import { SaveModal } from "@/components/Menu/SaveModal/SaveModal";
 import { ImportModal } from "@/components/Menu/ImportModal/ImportModal";
 import { ModelDataType } from "@/core/types/ModelDataType";
+import { FormatType } from "@/core/types/FormatType";
 
 const FloatingMenu = () => {
   const theme = useTheme();
@@ -39,10 +40,10 @@ const FloatingMenu = () => {
     useModelingContext();
   const { setOperations } = useProcessingContext();
 
-  const handleExport = (format: string, fileName: string) => {
+  const handleExport = (format: FormatType, fileName: string) => {
     if (currentGeometry) {
       exportModel({
-        format: format as any,
+        format: format as FormatType,
         fileName,
         geometry: currentGeometry,
       });
