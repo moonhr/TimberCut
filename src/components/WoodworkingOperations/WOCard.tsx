@@ -6,15 +6,11 @@ interface WOCardProps {
   onClick?: () => void;
 }
 
-/**
- * 가공선택 카드
- * @param {name, image, onClick}
- */
 const WOCard: React.FC<WOCardProps> = ({ name, image, onClick }) => {
   return (
     <div
       className="flex flex-col justify-center items-center border border-black rounded-sm p-1 w-20 bg-gray-100 hover:bg-gray-200 cursor-pointer"
-      onClick={onClick} 
+      onClick={onClick}
     >
       <div className="wo-card-image">
         <Image src={image} alt={name} width={50} height={50} />
