@@ -49,10 +49,34 @@ const WoodworkingOperations = () => {
           <WOCard
             key={index}
             name={operation.name}
-            image={`https://via.placeholder.com/150?text=${operation.name}`}
+            image={`/processing/${operation.name}.png`}
             onClick={() => handleCardClick(operation)}
           />
         ))}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <span className="text-sm font-mono text-gray-600 px-3 py-1 rounded text-center">
+              Coming Soon
+            </span>
+          </div>
+          <div className="opacity-50">
+            <WOCard key={"Dado"} name={"Dado"} image={"/processing/Dado.png"} />
+          </div>
+        </div>
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <span className="text-sm font-mono text-gray-600 px-3 py-1 rounded text-center">
+              Coming Soon
+            </span>
+          </div>
+          <div className="opacity-50">
+            <WOCard
+              key={"Rabbet"}
+              name={"Rabbet"}
+              image={"/processing/Rabbet.png"}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
