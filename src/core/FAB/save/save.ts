@@ -1,6 +1,6 @@
 import { ProcessingOperation } from "@/ts/interface/ProcessingOperation";
 import * as THREE from "three";
-
+import { UnitType } from "@/core/types/ModelDataType";
 interface SaveModelData {
   title: string;
   modelingData: {
@@ -8,7 +8,7 @@ interface SaveModelData {
     length: number;
     width: number;
     thickness: number;
-    unit: "mm" | "inch" | "cm" | "ft";
+    unit: UnitType;
     pxDimensions: { length: number; width: number; thickness: number };
     operations: ProcessingOperation[];
   };

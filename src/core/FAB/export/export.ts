@@ -36,7 +36,8 @@ export const exportModel = ({
             "application/octet-stream"
           );
         },
-        { binary: format === "glb" } as any
+        (error) => console.error(error),
+        { binary: format === "glb" }
       );
       break;
 
@@ -86,7 +87,8 @@ const generateGCode = (geometry: THREE.BufferGeometry): string => {
 
   gcode += `; Bounding box size: ${size.x} x ${size.y} x ${size.z}\n`;
 
-  const vertices = geometry.attributes.position.array;
+  const vertices: Float32Array = geometry.attributes.position
+    .array as Float32Array;
   const feedRate = 1500; // mm/min
   const cutDepth = -1.0; // mm
 

@@ -1,6 +1,6 @@
 import { useModelingContext } from "@/context/ModelingContext";
 import { useProcessingContext } from "@/context/ProcessingContext";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ProcessingOperation } from "@/ts/interface/ProcessingOperation";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
@@ -31,29 +31,22 @@ const ProcessingDetails: React.FC<ProcessingDetailsProps> = ({
         ])
       );
       setParameters(initialParams);
-      // 초기 파라미터로 미리보기 업데이트
       setProcessingParameters(initialParams);
       updatePreview(selectedOperation.name, initialParams);
     }
-  }, [selectedOperation]);
+  }, [selectedOperation, setProcessingParameters, updatePreview]);
 
-  if (!selectedOperation) {
-    return (
-      <p className="text-sm text-gray-600">
-        Select an operation to view details.
-      </p>
-    );
-  }
+  const handleParameterChange = useCallback(
+    (key: string, value: number) => {
+      const newParameters = { ...parameters, [key]: value };
+      setParameters(newParameters);
+      setProcessingParameters(newParameters);
+      updatePreview(selectedOperation!.name, newParameters);
+    },
+    [parameters, setProcessingParameters, updatePreview, selectedOperation]
+  );
 
-  const handleParameterChange = (key: string, value: number) => {
-    const newParameters = { ...parameters, [key]: value };
-    setParameters(newParameters);
-    // 파라미터 변경 시마다 context 업데이트
-    setProcessingParameters(newParameters);
-    updatePreview(selectedOperation.name, newParameters);
-  };
-
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     if (!selectedOperation) {
       console.error("No operation selected.");
       return;
@@ -72,7 +65,15 @@ const ProcessingDetails: React.FC<ProcessingDetailsProps> = ({
     });
 
     onClearSelection();
-  };
+  }, [selectedOperation, parameters, addOperation, onClearSelection]);
+
+  if (!selectedOperation) {
+    return (
+      <p className="text-sm text-gray-600">
+        Select an operation to view details.
+      </p>
+    );
+  }
 
   return (
     <div>

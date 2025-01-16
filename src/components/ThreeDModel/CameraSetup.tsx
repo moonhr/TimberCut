@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useThree } from "@react-three/fiber";
 
 export const CameraSetup = ({
@@ -8,14 +8,14 @@ export const CameraSetup = ({
 }) => {
   const { camera } = useThree();
 
-  const calculateDistance = () => {
+  const calculateDistance = useCallback(() => {
     const maxDimension = Math.max(
       boxDimensions.length,
       boxDimensions.width,
       boxDimensions.thickness
     );
     return maxDimension * 1;
-  };
+  }, [boxDimensions]);
 
   useEffect(() => {
     const radius = calculateDistance();

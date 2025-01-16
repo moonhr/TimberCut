@@ -3,11 +3,15 @@
  */
 class WarnOnNavigate {
   public enableWarning(): void {
-    window.addEventListener("beforeunload", this.handleBeforeUnload);
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeunload", this.handleBeforeUnload);
+    }
   }
 
   public disableWarning(): void {
-    window.removeEventListener("beforeunload", this.handleBeforeUnload);
+    if (typeof window !== "undefined") {
+      window.removeEventListener("beforeunload", this.handleBeforeUnload);
+    }
   }
 
   private handleBeforeUnload = (event: BeforeUnloadEvent): void => {

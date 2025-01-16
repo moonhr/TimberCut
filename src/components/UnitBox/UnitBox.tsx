@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/popover";
 
 import { useModelingContext } from "@/context/ModelingContext";
+import { UnitType } from "@/core/types/ModelDataType";
 
 // 단위 선택 옵션
 const units = [
@@ -56,11 +57,9 @@ export function UnitBox() {
                   value={u.value}
                   onSelect={(currentValue) => {
                     if (currentValue !== unit) {
-                      convertToUnit(
-                        currentValue as "mm" | "inch" | "cm" | "ft"
-                      );
+                      convertToUnit(currentValue as UnitType);
                     }
-                    setOpen(false); // 선택 후 Popover 닫기
+                    setOpen(false);
                   }}
                 >
                   {u.label}

@@ -2,19 +2,20 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { UnitConverter } from "@/core/UnitConverter";
 import { NumberRounder } from "@/utils/NumberRounder";
 import * as THREE from "three";
+import { UnitType } from "@/core/types/ModelDataType";
 
 // Context에서 관리할 데이터의 타입
 interface ModelingContextData {
   length: number;
   width: number;
   thickness: number;
-  unit: "mm" | "inch" | "cm" | "ft";
+  unit: UnitType;
   pxDimensions: { length: number; width: number; thickness: number };
   setLength: (value: number) => void;
   setWidth: (value: number) => void;
   setThickness: (value: number) => void;
-  setUnit: (unit: "mm" | "inch" | "cm" | "ft") => void;
-  convertToUnit: (targetUnit: "mm" | "inch" | "cm" | "ft") => void;
+  setUnit: (unit: UnitType) => void;
+  convertToUnit: (targetUnit: UnitType) => void;
   currentGeometry: THREE.BufferGeometry | null;
   setCurrentGeometry: (geometry: THREE.BufferGeometry | null) => void;
 }
@@ -44,7 +45,7 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
   const [length, setLength] = useState<number>(1200);
   const [width, setWidth] = useState<number>(600);
   const [thickness, setThickness] = useState<number>(20);
-  const [unit, setUnit] = useState<"mm" | "inch" | "cm" | "ft">("mm");
+  const [unit, setUnit] = useState<UnitType>("mm");
   const [pxDimensions, setPxDimensions] = useState<{
     length: number;
     width: number;
@@ -76,7 +77,7 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, [length, width, thickness, unit]);
 
-  const convertToUnit = (targetUnit: "mm" | "inch" | "cm" | "ft") => {
+  const convertToUnit = (targetUnit: UnitType) => {
     const mmLength = UnitConverter.convertToMm(length, unit);
     const mmWidth = UnitConverter.convertToMm(width, unit);
     const mmThickness = UnitConverter.convertToMm(thickness, unit);

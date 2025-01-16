@@ -12,11 +12,12 @@ import {
   RoundEdgeParameters,
 } from "@/core/types/ProcessingTypes";
 import { useModelingContext } from "@/context/ModelingContext";
+import { UnitType } from "@/core/types/ModelDataType";
 
 interface BoxModelingProps {
   material: boolean;
   pxDimensions: { length: number; width: number; thickness: number };
-  unit: "mm" | "cm" | "inch" | "ft";
+  unit: UnitType;
 }
 
 const BoxModeling: React.FC<BoxModelingProps> = ({

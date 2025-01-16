@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { ProcessingOperation } from "@/ts/interface/ProcessingOperation";
 
+export type UnitType = "mm" | "inch" | "cm" | "ft";
+
 export type ModelDataType = {
   title: string;
   modelingData: {
@@ -8,7 +10,7 @@ export type ModelDataType = {
     length: number;
     width: number;
     thickness: number;
-    unit: "mm" | "inch" | "cm" | "ft";
+    unit: UnitType;
     pxDimensions: {
       length: number;
       width: number;

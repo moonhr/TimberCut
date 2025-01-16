@@ -10,7 +10,7 @@ export const SizeBox = () => {
     <div className="flex flex-row gap-4">
       <div className="flex items-center gap-2">
         <Input
-          placeholder="길이"
+          placeholder="Length"
           value={length}
           onChange={(e) => setLength(parseFloat(e.target.value) || 0)}
           type="number"
@@ -19,7 +19,7 @@ export const SizeBox = () => {
       </div>
       <div className="flex items-center gap-2">
         <Input
-          placeholder="너비"
+          placeholder="Width"
           value={width}
           onChange={(e) => setWidth(parseFloat(e.target.value) || 0)}
           type="number"
@@ -28,7 +28,7 @@ export const SizeBox = () => {
       </div>
       <div className="flex items-center gap-2">
         <Input
-          placeholder="두께"
+          placeholder="Thickness"
           value={thickness}
           onChange={(e) => setThickness(parseFloat(e.target.value) || 0)}
           type="number"
