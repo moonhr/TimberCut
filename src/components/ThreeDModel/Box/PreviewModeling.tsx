@@ -12,7 +12,7 @@ import {
   GrooveParameters,
   RoundEdgeParameters,
   CircularHoleParameters,
-} from "@/core/types/ProcessingTypes";
+} from "@/ts/types/ProcessingTypes";
 
 interface PreviewModelingProps {
   selectedOperation: string | null;

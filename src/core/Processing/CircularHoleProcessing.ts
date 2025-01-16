@@ -1,7 +1,7 @@
 import { BaseProcessing } from "./BaseProcessing";
 import * as THREE from "three";
 import { CSG } from "three-csg-ts";
-import { CircularHoleParameters } from "@/core/types/ProcessingTypes";
+import { CircularHoleParameters } from "@/ts/types/ProcessingTypes";
 
 export class CircularHoleProcessing extends BaseProcessing {
   constructor(baseGeometry: THREE.BufferGeometry) {

@@ -10,9 +10,9 @@ import {
   CircularHoleParameters,
   GrooveParameters,
   RoundEdgeParameters,
-} from "@/core/types/ProcessingTypes";
+} from "@/ts/types/ProcessingTypes";
 import { useModelingContext } from "@/context/ModelingContext";
-import { UnitType } from "@/core/types/ModelDataType";
+import { UnitType } from "@/ts/types/ModelDataType";
 
 interface BoxModelingProps {
   material: boolean;

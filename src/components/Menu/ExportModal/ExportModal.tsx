@@ -12,7 +12,7 @@ import {
   InputLabel,
   Box,
 } from "@mui/material";
-import { FormatType } from "@/core/types/FormatType";
+import { FormatType } from "@/ts/types/FormatType";
 interface ExportModalProps {
   open: boolean;
   onClose: () => void;

@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/popover";
 
 import { useModelingContext } from "@/context/ModelingContext";
-import { UnitType } from "@/core/types/ModelDataType";
+import { UnitType } from "@/ts/types/ModelDataType";
 
 // 단위 선택 옵션
 const units = [

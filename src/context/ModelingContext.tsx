@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { UnitConverter } from "@/core/UnitConverter";
 import { NumberRounder } from "@/utils/NumberRounder";
 import * as THREE from "three";
-import { UnitType } from "@/core/types/ModelDataType";
+import { UnitType } from "@/ts/types/ModelDataType";
 
 // Context에서 관리할 데이터의 타입
 interface ModelingContextData {

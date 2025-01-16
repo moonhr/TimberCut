@@ -22,8 +22,8 @@ import { importModel } from "@/core/FAB/import/import";
 import { ExportModal } from "@/components/Menu/ExportModal/ExportModal";
 import { SaveModal } from "@/components/Menu/SaveModal/SaveModal";
 import { ImportModal } from "@/components/Menu/ImportModal/ImportModal";
-import { ModelDataType } from "@/core/types/ModelDataType";
-import { FormatType } from "@/core/types/FormatType";
+import { ModelDataType } from "@/ts/types/ModelDataType";
+import { FormatType } from "@/ts/types/FormatType";
 
 const FloatingMenu = () => {
   const theme = useTheme();

@@ -1,6 +1,6 @@
 import { ProcessingOperation } from "@/ts/interface/ProcessingOperation";
 import * as THREE from "three";
-import { UnitType } from "@/core/types/ModelDataType";
+import { UnitType } from "@/ts/types/ModelDataType";
 interface SaveModelData {
   title: string;
   modelingData: {

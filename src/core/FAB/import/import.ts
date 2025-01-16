@@ -1,4 +1,4 @@
-import { ModelDataType } from "@/core/types/ModelDataType";
+import { ModelDataType } from "@/ts/types/ModelDataType";
 
 export const importModel = (): ModelDataType[] => {
   try {

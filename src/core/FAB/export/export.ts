@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 import { STLExporter } from "three/addons/exporters/STLExporter.js";
 import { OBJExporter } from "three/addons/exporters/OBJExporter.js";
-import { FormatType } from "@/core/types/FormatType";
+import { FormatType } from "@/ts/types/FormatType";
 
 interface ExportOptions {
   format: FormatType;

@@ -1,7 +1,7 @@
 import { BaseProcessing } from "./BaseProcessing";
 import * as THREE from "three";
 import { CSG } from "three-csg-ts";
-import { RoundEdgeParameters } from "@/core/types/ProcessingTypes";
+import { RoundEdgeParameters } from "@/ts/types/ProcessingTypes";
 
 interface Corner {
   position: THREE.Vector3;

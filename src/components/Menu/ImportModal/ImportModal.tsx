@@ -12,7 +12,7 @@ import {
   Button,
 } from "@mui/material";
 import { IoClose, IoTrash } from "react-icons/io5";
-import { ModelDataType } from "@/core/types/ModelDataType";
+import { ModelDataType } from "@/ts/types/ModelDataType";
 import { useModelingContext } from "@/context/ModelingContext";
 import { useProcessingContext } from "@/context/ProcessingContext";
 
