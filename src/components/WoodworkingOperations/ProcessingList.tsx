@@ -24,7 +24,7 @@ const ProcessingList: React.FC = () => {
                   variant: "destructive",
                   size: "sm",
                 })}
-                onClick={() => removeOperation(index)} 
+                onClick={() => removeOperation(index)}
               >
                 X
               </Button>
