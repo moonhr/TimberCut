@@ -16,10 +16,10 @@ const Footer = () => {
               features, please contact us at:
             </p>
             <a
-              href="mailto:moonhr153@gmail.com"
+              href="mailto:moonhr153@gmail.com?body=timbercut.net"
               className="text-xs text-blue-600 hover:text-blue-700 transition-colors duration-200 font-medium"
             >
-              moonhr153@gmail.com
+              Send Email
             </a>
           </div>
           <div className="text-xs text-gray-400 mt-4">
