@@ -64,7 +64,7 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
     const mmWidth = UnitConverter.convertToMm(width, unit);
     const mmThickness = UnitConverter.convertToMm(thickness, unit);
 
-    const newPxDimensions = {
+    setPxDimensions({
       length: NumberRounder.roundToThreeDecimalPlaces(
         convertToPxFromMm(mmLength)
       ),
@@ -74,16 +74,7 @@ export const ModelingProvider: React.FC<{ children: React.ReactNode }> = ({
       thickness: NumberRounder.roundToThreeDecimalPlaces(
         convertToPxFromMm(mmThickness)
       ),
-    };
-
-    // Only update if dimensions have changed
-    if (
-      newPxDimensions.length !== pxDimensions.length ||
-      newPxDimensions.width !== pxDimensions.width ||
-      newPxDimensions.thickness !== pxDimensions.thickness
-    ) {
-      setPxDimensions(newPxDimensions);
-    }
+    });
   }, [length, width, thickness, unit]);
 
   const convertToUnit = (targetUnit: UnitType) => {

@@ -40,50 +40,25 @@ export const ProcessingProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const addOperation = (operation: ProcessingOperation) => {
-    setOperations((prev) => {
-      const newOperations = [...prev, operation];
-      if (newOperations.length !== prev.length) {
-        return newOperations;
-      }
-      return prev;
-    });
+    setOperations((prev) => [...prev, operation]);
     clearPreview();
   };
 
   const removeOperation = (index: number) => {
-    setOperations((prev) => {
-      const newOperations = prev.filter((_, i) => i !== index);
-      if (newOperations.length !== prev.length) {
-        return newOperations;
-      }
-      return prev;
-    });
+    setOperations((prev) => prev.filter((_, i) => i !== index));
   };
 
   const updatePreview = (name: string, parameters: Record<string, number>) => {
-    setPreviewOperation((prev) => {
-      if (
-        prev.name !== name ||
-        JSON.stringify(prev.parameters) !== JSON.stringify(parameters)
-      ) {
-        return {
-          name,
-          parameters,
-        };
-      }
-      return prev;
+    setPreviewOperation({
+      name,
+      parameters,
     });
   };
 
   const clearPreview = () => {
-    setPreviewOperation((prev) => {
-      if (prev.name !== null || prev.parameters !== null) {
-        return {
-          name: null,
-          parameters: null,
-        };
-      }
-      return prev;
+    setPreviewOperation({
+      name: null,
+      parameters: null,
     });
   };
 
